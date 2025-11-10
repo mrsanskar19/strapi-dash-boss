@@ -9,21 +9,21 @@ import { Plus } from "lucide-react";
 const Index = () => {
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h2 className="text-3xl font-bold text-foreground">Dashboard</h2>
-            <p className="text-muted-foreground mt-1">Monitor and manage your backend infrastructure</p>
+            <h2 className="text-xl md:text-3xl font-bold text-foreground">Dashboard</h2>
+            <p className="text-sm text-muted-foreground mt-1">Monitor and manage your backend infrastructure</p>
           </div>
-          <Button className="gap-2">
+          <Button className="gap-2 w-full sm:w-auto">
             <Plus className="h-4 w-4" />
             New Application
           </Button>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4">
           <StatCard
             title="Total Applications"
             value={12}
@@ -57,10 +57,10 @@ const Index = () => {
         {/* Applications Section */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold text-foreground">Applications</h3>
+            <h3 className="text-lg md:text-xl font-semibold text-foreground">Applications</h3>
             <Button variant="ghost" size="sm">View All</Button>
           </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <ApplicationCard
               name="E-commerce API"
               status="active"
@@ -88,8 +88,8 @@ const Index = () => {
         {/* Database Tables Section */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold text-foreground">Database Tables</h3>
-            <Button variant="ghost" size="sm">Manage All</Button>
+            <h3 className="text-lg md:text-xl font-semibold text-foreground">Database Tables</h3>
+            <Button variant="ghost" size="sm" className="text-sm">Manage All</Button>
           </div>
           <DatabaseTable />
         </div>

@@ -9,14 +9,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function Settings() {
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Settings</h2>
-          <p className="text-muted-foreground mt-1">Manage your application settings and preferences</p>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground">Settings</h2>
+          <p className="text-sm text-muted-foreground mt-1">Manage your application settings and preferences</p>
         </div>
 
-        <Tabs defaultValue="general" className="space-y-6">
-          <TabsList>
+        <Tabs defaultValue="general" className="space-y-4 md:space-y-6">
+          <TabsList className="w-full sm:w-auto grid grid-cols-2 sm:flex">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="security">Security</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>

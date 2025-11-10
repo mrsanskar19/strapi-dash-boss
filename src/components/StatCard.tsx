@@ -22,19 +22,19 @@ export function StatCard({ title, value, icon: Icon, trend, variant = "primary" 
 
   return (
     <Card className="transition-all duration-200 hover:shadow-lg">
-      <CardContent className="p-6">
+      <CardContent className="p-4 md:p-6">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <p className="text-sm font-medium text-muted-foreground mb-1">{title}</p>
-            <p className="text-3xl font-bold text-foreground">{value}</p>
+            <p className="text-xs md:text-sm font-medium text-muted-foreground mb-1">{title}</p>
+            <p className="text-xl md:text-3xl font-bold text-foreground">{value}</p>
             {trend && (
-              <p className={`text-sm mt-2 ${trend.isPositive ? "text-success" : "text-destructive"}`}>
+              <p className={`text-xs md:text-sm mt-2 ${trend.isPositive ? "text-success" : "text-destructive"}`}>
                 {trend.isPositive ? "↑" : "↓"} {trend.value}
               </p>
             )}
           </div>
-          <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${variantClasses[variant]}`}>
-            <Icon className="h-6 w-6" />
+          <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center ${variantClasses[variant]}`}>
+            <Icon className="h-5 w-5 md:h-6 md:w-6" />
           </div>
         </div>
       </CardContent>
