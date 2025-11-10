@@ -2,12 +2,32 @@ import { ReactNode } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { BottomNav } from "@/components/BottomNav";
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 interface DashboardLayoutProps {
   children: ReactNode;
 }
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to logout",
+        variant: "destructive",
+      });
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -23,6 +43,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <div className="flex-1">
               <h1 className="text-lg font-semibold text-foreground">Backend Management</h1>
             </div>
+            <Button variant="ghost" size="sm" onClick={handleLogout} className="gap-2">
+              <LogOut className="h-4 w-4" />
+              Logout
+            </Button>
           </header>
           
           {/* Mobile Header */}
