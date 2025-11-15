@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,11 +21,13 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { login } = useAuth();
   const { toast } = useToast();
 
   useEffect(() => {
+    console.log("login ",user)
     if (user) {
-      navigate("/", { replace: true });
+      navigate("/");
     }
   }, [user, navigate]);
 
@@ -45,27 +46,17 @@ export default function Login() {
     }
 
     setLoading(true);
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email: validation.data.email,
-      password: validation.data.password,
-    });
+    const user = await login(email, password);
+    console.log(user)
 
     setLoading(false);
 
-    if (error) {
-      toast({
-        title: "Login Failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Success",
-        description: "Logged in successfully",
-      });
-      navigate("/", { replace: true });
-    }
+    toast({
+      title: "Success",
+      description: "Logged in successfully",
+    });
+    navigate('/')
+      
   };
 
   if (user) {

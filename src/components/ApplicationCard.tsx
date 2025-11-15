@@ -2,6 +2,7 @@ import { MoreVertical, Server, Activity } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 interface ApplicationCardProps {
   name: string;
@@ -9,9 +10,10 @@ interface ApplicationCardProps {
   requests: string;
   uptime: string;
   lastDeployed: string;
+  slug:string;
 }
 
-export function ApplicationCard({ name, status, requests, uptime, lastDeployed }: ApplicationCardProps) {
+export function ApplicationCard({ name, status, requests, uptime, lastDeployed,slug }: ApplicationCardProps) {
   const statusColors = {
     active: "bg-success text-success-foreground",
     inactive: "bg-muted text-muted-foreground",
@@ -19,6 +21,7 @@ export function ApplicationCard({ name, status, requests, uptime, lastDeployed }
   };
 
   return (
+    <Link to={`/applications/${slug}`}>
     <Card className="transition-all duration-200 hover:shadow-lg">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
         <div className="flex items-center gap-3">
@@ -53,5 +56,6 @@ export function ApplicationCard({ name, status, requests, uptime, lastDeployed }
         </div>
       </CardContent>
     </Card>
+    </Link>
   );
 }

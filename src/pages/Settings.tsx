@@ -5,8 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Settings() {
+  const { user, logout } = useAuth();
   return (
     <DashboardLayout>
       <div className="space-y-4 md:space-y-6">
@@ -43,6 +45,18 @@ export default function Settings() {
                   <Input id="timezone" defaultValue="UTC" />
                 </div>
                 <Button>Save Changes</Button>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Denzar Zone</CardTitle>
+                <CardDescription>All resiky oprations hrer</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="app-name">Logout</Label><br/>
+                  <Button onClick={()=>logout()} className="bg-red-500 hover:bg-red-600 text-white">Logout</Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

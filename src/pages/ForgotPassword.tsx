@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,25 +34,11 @@ export default function ForgotPassword() {
     setLoading(true);
     const redirectUrl = `${window.location.origin}/reset-password`;
 
-    const { error } = await supabase.auth.resetPasswordForEmail(validation.data.email, {
-      redirectTo: redirectUrl,
-    });
+    
 
     setLoading(false);
 
-    if (error) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      setSent(true);
-      toast({
-        title: "Email Sent",
-        description: "Check your email for the password reset link",
-      });
-    }
+    setSent(true);
   };
 
   return (

@@ -3,16 +3,24 @@ import { ApplicationCard } from "@/components/ApplicationCard";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
-const applications = [
-  { name: "User Service", status: "active" as const, requests: "1.2M", uptime: "99.9%", lastDeployed: "2 hours ago" },
-  { name: "Payment API", status: "active" as const, requests: "856K", uptime: "99.8%", lastDeployed: "5 hours ago" },
-  { name: "Notification Service", status: "inactive" as const, requests: "0", uptime: "0%", lastDeployed: "1 day ago" },
-  { name: "Analytics Engine", status: "active" as const, requests: "2.4M", uptime: "99.95%", lastDeployed: "3 hours ago" },
-  { name: "Email Service", status: "active" as const, requests: "543K", uptime: "99.7%", lastDeployed: "1 day ago" },
-  { name: "File Storage", status: "active" as const, requests: "1.8M", uptime: "99.99%", lastDeployed: "6 hours ago" },
-];
+
+import { db } from "@/lib/db"
+import { useEffect, useState } from "react";
+
 
 export default function Applications() {
+    const { loading, getApplications } = db()
+    const [data,setData] = useState<any | null>(null)
+    const fetchData = async() =>{
+      const res = await getApplications()
+      setData(res)
+    }
+  
+    useEffect(() => {
+      fetchData();
+    }, [])
+    
+    if(loading) return <p>Loading</p>
   return (
     <DashboardLayout>
       <div className="space-y-4 md:space-y-6">
@@ -28,9 +36,16 @@ export default function Applications() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {applications.map((app) => (
-            <ApplicationCard key={app.name} {...app} />
-          ))}
+          {data ? data.map((app) => (
+            <ApplicationCard 
+              key={app.id}
+              name={app.name}
+              status={app.isActive ? "active" : "inactive"}
+              requests="245K/day"
+              uptime="99.9%"
+              lastDeployed={app.updatedAt} 
+              slug={app.slug}            />
+          )) : "Data Not Found"}
         </div>
       </div>
     </DashboardLayout>

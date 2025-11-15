@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { Server, Eye, EyeOff, ArrowRight, ArrowLeft } from "lucide-react";
 import { z } from "zod";
+import { post } from "@/lib/api"; 
 
 const step1Schema = z.object({
   email: z.string().trim().email({ message: "Invalid email address" }).max(255),
@@ -72,41 +72,30 @@ export default function Signup() {
 
     setLoading(true);
     const redirectUrl = `${window.location.origin}/`;
-
-    const { error } = await supabase.auth.signUp({
+    const response = await post('/api/v1/auth/register',{
+      name: fullName,
       email,
       password,
-      options: {
-        emailRedirectTo: redirectUrl,
-        data: {
-          full_name: fullName,
-        },
-      },
-    });
-
+    })
+    console.log("error testing:",response)
+    setLoading(false);
+    if (response.error) {
+      toast({
+        title: "Error",
+        description: response.error,
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
+    localStorage.setItem('token', response.jwt);
+    navigate(redirectUrl);
     setLoading(false);
 
-    if (error) {
-      if (error.message.includes("already registered")) {
-        toast({
-          title: "Account Exists",
-          description: "An account with this email already exists. Please sign in instead.",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Signup Failed",
-          description: error.message,
-          variant: "destructive",
-        });
-      }
-    } else {
-      toast({
-        title: "Success",
-        description: "Account created successfully! Please check your email to verify your account.",
-      });
-      navigate("/login");
-    }
+    toast({
+      title: "Success",
+      description: "Account created successfully",
+    });
   };
 
   if (user) {

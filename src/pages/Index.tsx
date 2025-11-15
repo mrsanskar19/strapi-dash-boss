@@ -6,7 +6,24 @@ import { Server, Database, Activity, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
+import { db } from "@/lib/db"
+import { useEffect, useState } from "react";
+
 const Index = () => {
+  const { loading, getApplications } = db()
+  const [data,setData] = useState<any | null>(null)
+  const fetchData = async() =>{
+    const res = await getApplications()
+    setData(res)
+    console.log(res)
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+  
+  if(loading) return <p>Loading</p>
+
   return (
     <DashboardLayout>
       <div className="space-y-4 md:space-y-6">
@@ -61,27 +78,18 @@ const Index = () => {
             <Button variant="ghost" size="sm">View All</Button>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <ApplicationCard
-              name="E-commerce API"
-              status="active"
+            
+            {data ? data?.map((app)=>(
+              <ApplicationCard
+              key={app?.id}
+              slug={app?.slug}
+              name={app?.name}
+              status={app?.isActive ? "active" : "inactive"}
               requests="245K/day"
               uptime="99.9%"
-              lastDeployed="2 hours ago"
+              lastDeployed={app?.updatedAt}
             />
-            <ApplicationCard
-              name="Auth Service"
-              status="active"
-              requests="892K/day"
-              uptime="99.8%"
-              lastDeployed="1 day ago"
-            />
-            <ApplicationCard
-              name="Analytics Engine"
-              status="inactive"
-              requests="0/day"
-              uptime="0%"
-              lastDeployed="5 days ago"
-            />
+            )) : "No Data Found"}
           </div>
         </div>
 
