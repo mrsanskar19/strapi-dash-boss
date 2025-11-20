@@ -13,7 +13,7 @@ import { StatCard } from "@/components/StatCard";
 
 
 
-export default function ApplicationView() {
+export default function CollectionView() {
     const { loading, getApplication } = db()
     const { slug } = useParams();
     const [data,setData] = useState<any | null>(null)

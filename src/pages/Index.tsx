@@ -5,14 +5,18 @@ import { DatabaseTable } from "@/components/DatabaseTable";
 import { Server, Database, Activity, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { Loading } from "@/components/Loading";
 
 import { db } from "@/lib/db"
+import { ApplicationForm } from "@/components/forms/Application"
+import { ConfirmActionAlert } from "@/components/forms/ConfirmActionAlert";
 import { useEffect, useState } from "react";
+import { FormWrapper,Title } from "@/components/forms/FormWrapper";
 
 const Index = () => {
   const { loading, getApplications } = db()
-  const [data,setData] = useState<any | null>(null)
-  const fetchData = async() =>{
+  const [data, setData] = useState<any | null>(null)
+  const fetchData = async () => {
     const res = await getApplications()
     setData(res)
     console.log(res)
@@ -21,22 +25,34 @@ const Index = () => {
   useEffect(() => {
     fetchData();
   }, [])
-  
-  if(loading) return <p>Loading</p>
+
+  if (loading) return <Loading />
 
   return (
-    <DashboardLayout>
+    <>
       <div className="space-y-4 md:space-y-6">
+        <FormWrapper onClose={function (): void {
+          throw new Error("Function not implemented.");
+        }}><ApplicationForm /></FormWrapper>
+        <ConfirmActionAlert onConfirm={function (): void {
+          throw new Error("Function not implemented.");
+        }} title={"Delete Database"} description={""} actionText={"delete"} confirmationPhrase={"sudo delete database"}>Delect Application</ConfirmActionAlert>
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h2 className="text-xl md:text-3xl font-bold text-foreground">Dashboard</h2>
             <p className="text-sm text-muted-foreground mt-1">Monitor and manage your backend infrastructure</p>
           </div>
-          <Button className="gap-2 w-full sm:w-auto">
-            <Plus className="h-4 w-4" />
+          <FormWrapper className="gap-2 w-full sm:w-auto" onClose={function (): void {
+            throw new Error("Function not implemented.");
+          }} title={
+          <Title>
+          <Plus className="h-4 w-4" />
             New Application
-          </Button>
+          </Title>
+          }>
+            <ApplicationForm />
+          </FormWrapper>
         </div>
 
         {/* Stats Grid */}
@@ -78,18 +94,20 @@ const Index = () => {
             <Button variant="ghost" size="sm">View All</Button>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            
-            {data ? data?.map((app)=>(
-              <ApplicationCard
-              key={app?.id}
-              slug={app?.slug}
-              name={app?.name}
-              status={app?.isActive ? "active" : "inactive"}
-              requests="245K/day"
-              uptime="99.9%"
-              lastDeployed={app?.updatedAt}
-            />
-            )) : "No Data Found"}
+
+            {data ?
+              data?.map((app) => (
+                <ApplicationCard
+                  key={app?.id}
+                  slug={app?.slug}
+                  name={app?.name}
+                  status={app?.isActive ? "active" : "inactive"}
+                  requests="245K/day"
+                  uptime="99.9%"
+                  lastDeployed={app?.updatedAt}
+                />
+              ))
+              : "No Data Found"}
           </div>
         </div>
 
@@ -102,7 +120,7 @@ const Index = () => {
           <DatabaseTable />
         </div>
       </div>
-    </DashboardLayout>
+    </>
   );
 };
 

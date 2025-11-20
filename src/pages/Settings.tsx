@@ -10,7 +10,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export default function Settings() {
   const { user, logout } = useAuth();
   return (
-    <DashboardLayout>
+    <>
       <div className="space-y-4 md:space-y-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-foreground">Settings</h2>
@@ -150,6 +150,6 @@ export default function Settings() {
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
+    </>
   );
 }

@@ -52,7 +52,7 @@ export function DataTable() {
   const [filterRole, setFilterRole] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [page, setPage] = useState(1);
-  const pageSize = 6;
+  const pageSize = 9;
   const [selected, setSelected] = useState<Record<string, boolean>>({});
 
   // Derived

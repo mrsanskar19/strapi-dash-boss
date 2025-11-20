@@ -7,13 +7,13 @@ import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils"
+import { Outlet } from "react-router-dom";
 
 interface DashboardLayoutProps {
-  children: ReactNode;
   className?:string;
 }
 
-export function DashboardLayout({ children, className }: DashboardLayoutProps) {
+export function DashboardLayout({ className }: DashboardLayoutProps) {
   const navigate = useNavigate();
   const { toast } = useToast();
   return (
@@ -44,7 +44,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
           
           {/* Main content with bottom padding on mobile for bottom nav */}
           <main className={cn("flex-1 p-4 md:p-6 pb-20 md:pb-6", className)}>
-            {children}
+            <Outlet/>
           </main>
         </div>
         
