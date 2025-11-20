@@ -133,7 +133,7 @@ export function DataTable() {
   }
 
   return (
-    <div className="p-4">
+    <div className="py-4">
       <Card>
         <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils"
 import { Outlet } from "react-router-dom";
+import { Tracker } from "./Tracker";
 
 interface DashboardLayoutProps {
   className?:string;
@@ -29,7 +30,8 @@ export function DashboardLayout({ className }: DashboardLayoutProps) {
           <header className="hidden md:flex h-16 border-b border-border bg-card items-center px-6 sticky top-0 z-10">
             <SidebarTrigger className="mr-4" />
             <div className="flex-1">
-              <h1 className="text-lg font-semibold text-foreground">Backend Management</h1>
+              {/* <h1 className="text-lg font-semibold text-foreground">Backend Management</h1> */}
+              <Tracker/>
             </div>
             <Button variant="ghost" size="sm" className="gap-2">
               <LogOut className="h-4 w-4" />

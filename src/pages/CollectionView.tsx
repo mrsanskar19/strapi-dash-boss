@@ -1,47 +1,23 @@
-import { DashboardLayout } from "@/components/DashboardLayout";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Plus, Server } from "lucide-react";
-import { useParams } from "react-router-dom";
-import { CollectionCard } from "@/components/CollectionCard";
-import { Card,CardContent,CardDescription,CardHeader, CardTitle } from "@/components/ui/card";
-import { Loading } from "@/components/Loading";
 
-import { db } from "@/lib/db"
-import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CollectionForm } from "@/components/forms/Collection";
+
+import { DataTable } from "@/components/DataTable";
+import { CollectionSidebar } from "@/components/CollectionSidebar";
+import { Plus, Server } from "lucide-react";
 import { StatCard } from "@/components/StatCard";
 
+const CollectionPage = () => {
 
 
-export default function CollectionView() {
-    const { loading, getApplication } = db()
-    const { slug } = useParams();
-    const [data,setData] = useState<any | null>(null)
-    const statusColors = {
-      active: "bg-success text-success-foreground",
-      inactive: "bg-muted text-muted-foreground",
-      error: "bg-destructive text-destructive-foreground",
-    };
-    const fetchData = async() =>{
-      const res = await getApplication(slug)
-      console.log(res)
-      setData(res)
-    }
-  
-    useEffect(() => {
-      fetchData();
-    }, [])
-    
-    if(loading) return <Loading/>
   return (
-    <>
-      <div className="space-y-4 md:space-y-6">
-        <Card>
-          <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          
+    <div className="p-4 md:p-6">
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle className="text-xl md:text-2xl font-bold text-foreground">{data?.name}</CardTitle>
-            <CardDescription className="text-sm text-muted-foreground mt-1">{data?.description}</CardDescription>
+            <CardTitle>Collections</CardTitle>
+            <CardDescription>Manage your collections.</CardDescription>
           </div>
           <Button className="gap-2 w-full sm:w-auto">
             <Plus className="h-4 w-4" />
@@ -57,24 +33,11 @@ export default function CollectionView() {
             <div>tsyting layout</div>
           </div>
           </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-        <h2 className="text-xl md:text-2xl font-bold text-foreground">Collections</h2>
-        </CardHeader>
-        <CardContent>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-        <CollectionCard name={"Testing Collection"} status={"active"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"active"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"error"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"active"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"inactive"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"active"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"active"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        </div>
-        </CardContent>
-        </Card>
-      </div>
-    </>
+      </Card>
+
+      <DataTable/>
+    </div>
   );
-}
+};
+
+export default CollectionPage;

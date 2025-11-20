@@ -39,28 +39,28 @@ const App = () => (
             <Route path="/verify-email" element={<VerifyEmailPage />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            
-            {/* Protected routes */}
-            <Route element={
-              <ProtectedRoute>
-                <DashboardLayout/>
-              </ProtectedRoute>
-            }>
-            <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-            <Route path="/applications" element={<ProtectedRoute><Applications /></ProtectedRoute>} />
-            <Route path="/applications/:slug" element={<ProtectedRoute><ApplicationView /></ProtectedRoute>} />
-            <Route path="/collection/:slug" element={<ProtectedRoute><CollectionView/></ProtectedRoute>} />
-            <Route path="/database" element={<ProtectedRoute><Database /></ProtectedRoute>} />
-            <Route path="/api" element={<ProtectedRoute><Api /></ProtectedRoute>} />
-            <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-            
 
-            {/* Profiles Routus */}
-            <Route path="/profile/view" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
-            
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
+            {/* Protected routes */}
+            <Route
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="/" element={<Index />} />
+              <Route path="/applications" element={<Applications />} />
+              <Route path="/applications/:slug" element={<ApplicationView />} />
+              <Route path="/collection/:slug" element={<CollectionView />} />
+              <Route path="/database" element={<Database />} />
+              <Route path="/api" element={<Api />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/profile/view" element={<Profile />} />
+
+              {/* Catch-all route should still be outside or last */}
+              <Route path="*" element={<NotFound />} />
             </Route>
+
           </Routes>
         </TooltipProvider>
       </AuthProvider>

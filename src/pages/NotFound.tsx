@@ -10,7 +10,7 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <DashboardLayout>
+    <>
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="text-center">
         <h1 className="mb-4 text-4xl font-bold">404</h1>
@@ -20,7 +20,7 @@ const NotFound = () => {
         </a>
       </div>
     </div>
-    </DashboardLayout>
+    </>
   );
 };
 
