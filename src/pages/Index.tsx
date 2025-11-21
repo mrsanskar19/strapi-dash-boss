@@ -6,12 +6,12 @@ import { Server, Database, Activity, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Loading } from "@/components/Loading";
+import { Link } from "react-router-dom";
 
 import { db } from "@/lib/db"
-import { ApplicationForm } from "@/components/forms/Application"
-import { ConfirmActionAlert } from "@/components/forms/ConfirmActionAlert";
 import { useEffect, useState } from "react";
-import { FormWrapper,Title } from "@/components/forms/FormWrapper";
+import { FormWrapper } from "@/forms/FormWrapper";
+import { ApplicationForm } from "@/forms/ApplicationForm";
 
 const Index = () => {
   const { loading, getApplications } = db()
@@ -30,29 +30,29 @@ const Index = () => {
 
   return (
     <>
-      <div className="space-y-4 md:space-y-6">
-        <FormWrapper onClose={function (): void {
-          throw new Error("Function not implemented.");
-        }}><ApplicationForm /></FormWrapper>
-        <ConfirmActionAlert onConfirm={function (): void {
-          throw new Error("Function not implemented.");
-        }} title={"Delete Database"} description={""} actionText={"delete"} confirmationPhrase={"sudo delete database"}>Delect Application</ConfirmActionAlert>
+      <div className="space-y-4 md:space-y-6">        
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h2 className="text-xl md:text-3xl font-bold text-foreground">Dashboard</h2>
             <p className="text-sm text-muted-foreground mt-1">Monitor and manage your backend infrastructure</p>
           </div>
-          <FormWrapper className="gap-2 w-full sm:w-auto" onClose={function (): void {
-            throw new Error("Function not implemented.");
-          }} title={
-          <Title>
-          <Plus className="h-4 w-4" />
-            New Application
-          </Title>
-          }>
-            <ApplicationForm />
-          </FormWrapper>
+          <div className="flex items-center gap-2">
+          <FormWrapper
+  title="Create New Application"
+  description="Give your new application a name and a description."
+  trigger={
+    <Button>
+      <Plus className="h-4 w-4" />
+      New Application
+    </Button>
+  }
+  size="lg"
+>
+  <ApplicationForm />
+</FormWrapper>
+
+          </div>
         </div>
 
         {/* Stats Grid */}

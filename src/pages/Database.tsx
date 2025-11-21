@@ -1,58 +1,64 @@
-import { DashboardLayout } from "@/components/DashboardLayout";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, Download } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Progress } from "@/components/ui/progress";
 
-export default function DatabaseOverview() {
-  // Example static data for overview - replace with real data from props or API
-  const databaseName = "ProjectDB";
-  const tablesCount = 12;
-  const recordsCount = 23450;
-  const lastBackup = "2025-11-18 10:00 AM";
-
+export default function Database() {
   return (
-    <>
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-bold text-foreground">{databaseName} Overview</h2>
-            <p className="text-sm text-muted-foreground mt-1">
-              Overview of your database stats and actions
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline" className="gap-2 flex-1 sm:flex-none">
-              <Download className="h-4 w-4" />
-              <span className="hidden sm:inline">Export Database</span>
-            </Button>
-            <Button className="gap-2 flex-1 sm:flex-none">
-              <Plus className="h-4 w-4" />
-              <span className="hidden sm:inline">Add Table</span>
-            </Button>
-          </div>
-        </div>
-
-        {/* Overview Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div className="rounded-lg border border-border bg-card p-6 text-center">
-            <p className="text-sm text-muted-foreground">Tables</p>
-            <p className="text-3xl font-semibold">{tablesCount}</p>
-          </div>
-          <div className="rounded-lg border border-border bg-card p-6 text-center">
-            <p className="text-sm text-muted-foreground">Records</p>
-            <p className="text-3xl font-semibold">{recordsCount.toLocaleString()}</p>
-          </div>
-          <div className="rounded-lg border border-border bg-card p-6 text-center">
-            <p className="text-sm text-muted-foreground">Last Backup</p>
-            <p className="text-lg font-medium">{lastBackup}</p>
-          </div>
-        </div>
-
-        {/* Additional details or actions */}
-        <div className="rounded-lg border border-border bg-card p-6">
-          <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
-          <p className="text-muted-foreground">No recent activity to show.</p>
-        </div>
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground">Database</h2>
+        <p className="text-sm text-muted-foreground mt-1">An overview of your storage and system usage.</p>
       </div>
-    </>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <CardTitle>Data Storage</CardTitle>
+            <CardDescription>4.2 GB / 10 GB</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Progress value={42} />
+            <Link to="/database/data-storage" className="mt-4 inline-block">
+              <Button>View Details</Button>
+            </Link>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>File Storage</CardTitle>
+            <CardDescription>8.5 GB / 25 GB</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Progress value={34} />
+            <Link to="/database/file-storage" className="mt-4 inline-block">
+              <Button>View Details</Button>
+            </Link>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>System Usage</CardTitle>
+            <CardDescription>CPU: 68%, Memory: 65%</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Progress value={68} />
+            <Link to="/database/system-usage" className="mt-4 inline-block">
+              <Button>View Details</Button>
+            </Link>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Backups</CardTitle>
+            <CardDescription>Manage your database backups.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link to="/database/backups" className="mt-4 inline-block">
+              <Button>View Backups</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }

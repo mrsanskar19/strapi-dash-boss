@@ -5,9 +5,9 @@ import { Loading } from "@/components/Loading";
 
 
 import { db } from "@/lib/db"
-import { FormWrapper,Title } from "@/components/forms/FormWrapper";
+
 import { useEffect, useState } from "react";
-import { ApplicationForm } from "@/components/forms/Application";
+
 
 
 export default function Applications() {
@@ -31,11 +31,11 @@ export default function Applications() {
             <h2 className="text-xl md:text-2xl font-bold text-foreground">Applications</h2>
             <p className="text-sm text-muted-foreground mt-1">Manage your backend applications and services</p>
           </div>
-          <FormWrapper title={<Title>
+          {/* <FormWrapper title={<Title>
             <Plus className="h-4 w-4" />
             New Application</Title>}>
             <ApplicationForm/>
-            </FormWrapper>
+            </FormWrapper> */}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">

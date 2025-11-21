@@ -6,27 +6,35 @@ import {
   Settings,
   User,
   CreditCard,
-  Shield,
   Sliders,
-  Bell,
   Menu,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Play,
+  HelpCircle,
+  File,
+  Activity,
+  Save,
+  Key,
+  Shield,
+  UserCog,
+  Bell,
+  MoreHorizontal,
+  LogOut
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 
@@ -37,18 +45,31 @@ type MenuItem = {
   subItems?: MenuItem[];
 };
 const menuItems: MenuItem[] = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
+  { title: "Start Here", url: "/", icon: HelpCircle },
+  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { title: "Playground", url: "/playground", icon: Play },
   { title: "Applications", url: "/applications", icon: Server },
   {
     title: "Database",
     icon: Database,
     subItems: [
-      { title: "Tables", url: "/database/tables", icon: Database },
-      { title: "Queries", url: "/database/queries", icon: Code },
-      { title: "Backups", url: "/database/backups", icon: Settings },
+      { title: "Overview", url: "/database", icon: LayoutDashboard },
+      { title: "Data Storage", url: "/database/data-storage", icon: Database },
+      { title: "File Storage", url: "/database/file-storage", icon: File },
+      { title: "System Usage", url: "/database/system-usage", icon: Activity },
+      { title: "Backups", url: "/database/backups", icon: Save },
     ],
   },
-  { title: "API", url: "/api", icon: Code },
+  {
+    title: "API",
+    icon: Code,
+    subItems: [
+      { title: "Overview", url: "/api", icon: LayoutDashboard },
+      { title: "API Tokens", url: "/api/tokens", icon: Key },
+      { title: "Endpoint Access", url: "/api/endpoint-access", icon: Shield },
+      { title: "Access Manager", url: "/api/access-manager", icon: UserCog },
+    ]
+  },
   { title: "Endpoints", url: "/endpoints", icon: Code },
   {
     title: "Teams",
@@ -58,9 +79,7 @@ const menuItems: MenuItem[] = [
       { title: "Team Settings", url: "/teams/settings", icon: Settings },
     ],
   },
-  { title: "File Manager", url: "/files", icon: Database },
-
-  // New top-level menu items
+  { title: "File Manager", url: "/files", icon: File },
   {
     title: "Profile",
     icon: User,
@@ -73,9 +92,10 @@ const menuItems: MenuItem[] = [
     title: "Billing",
     icon: CreditCard,
     subItems: [
-      { title: "Payment Methods", url: "/billing/payments", icon: CreditCard },
+      { title: "Overview", url: "/billing", icon: CreditCard },
+      { title: "Payment Methods", url: "/billing/payment-methods", icon: CreditCard },
       { title: "Invoices", url: "/billing/invoices", icon: Code },
-      { title: "Subscription", url: "/billing/subscription", icon: Sliders },
+      { title: "Usage", url: "/billing/usage", icon: Sliders },
     ],
   },
   {
@@ -84,7 +104,9 @@ const menuItems: MenuItem[] = [
     subItems: [
       { title: "General", url: "/settings/general", icon: Sliders },
       { title: "Security", url: "/settings/security", icon: Shield },
+      { title: "Access", url: "/settings/application-access", icon: Shield },
       { title: "Preferences", url: "/settings/preferences", icon: Sliders },
+      { title: "Password", url: "/settings/password", icon: Sliders },
       { title: "Notifications", url: "/settings/notifications", icon: Bell },
     ],
   },
@@ -93,15 +115,14 @@ const menuItems: MenuItem[] = [
 export function AppSidebar() {
   const { open, setOpen } = useSidebar();
   const location = useLocation();
+  const { user, logout } = useAuth(); // Assuming useAuth provides user info and logout function
 
-  // Manage which submenu is expanded
   const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({});
 
   const toggleSubmenu = (title: string) => {
     setExpandedMenus((prev) => ({ ...prev, [title]: !prev[title] }));
   };
 
-  // Check if any submenu item is active (for parent active state)
   const isActive = (url?: string, subItems?: MenuItem[]) => {
     if (!url && !subItems) return false;
     if (url && location.pathname === url) return true;
@@ -113,7 +134,6 @@ export function AppSidebar() {
 
   return (
     <>
-      {/* Responsive toggle button */}
       <button
         onClick={() => setOpen(!open)}
         aria-label={`${open ? "Collapse" : "Expand"} sidebar`}
@@ -128,7 +148,8 @@ export function AppSidebar() {
         }`}
         collapsible="icon"
       >
-        <SidebarContent>
+        {/* Fixed Header */}
+        <div className="flex-shrink-0">
           <div className="flex items-center gap-2 px-4 py-6">
             {open ? (
               <div className="flex items-center gap-2">
@@ -145,93 +166,118 @@ export function AppSidebar() {
               </div>
             )}
           </div>
+        </div>
 
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {menuItems.map(({ title, url, icon: Icon, subItems }) => {
-                  const active = isActive(url, subItems);
-                  const expanded = expandedMenus[title] || false;
+        {/* Scrollable Content */}
+        <div className="flex-grow overflow-y-auto">
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {menuItems.map(({ title, url, icon: Icon, subItems }) => {
+                    const active = isActive(url, subItems);
+                    const expanded = expandedMenus[title] || false;
 
-                  return (
-                    <SidebarMenuItem key={title}>
-                      {/* If submenu, clicking toggles expand */}
-                      {subItems ? (
-                        <>
-                          <SidebarMenuButton
-                            onClick={() => toggleSubmenu(title)}
-                            aria-expanded={expanded}
-                            aria-controls={`submenu-${title.replace(/\s+/g, "")}`}
-                            className={`flex items-center justify-between gap-3 px-4 py-2.5 rounded-lg cursor-pointer
-                              ${active ? "bg-sidebar-accent text-sidebar-primary font-medium" : ""}
-                              hover:bg-sidebar-accent
-                              transition-colors`}
-                          >
-                            <div className="flex items-center gap-3">
+                    return (
+                      <SidebarMenuItem key={title}>
+                        {subItems ? (
+                          <>
+                            <SidebarMenuButton
+                              onClick={() => toggleSubmenu(title)}
+                              aria-expanded={expanded}
+                              aria-controls={`submenu-${title.replace(/\s+/g, "")}`}
+                              className={`flex items-center justify-between gap-3 px-4 py-2.5 rounded-lg cursor-pointer ${
+                                active ? "bg-sidebar-accent text-sidebar-primary font-medium" : ""
+                              } hover:bg-sidebar-accent transition-colors`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <Icon className="h-5 w-5 flex-shrink-0" />
+                                {open && <span>{title}</span>}
+                              </div>
+                              {open && (
+                                <span>
+                                  {expanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                                </span>
+                              )}
+                            </SidebarMenuButton>
+                            {expanded && open && (
+                              <SidebarGroupContent id={`submenu-${title.replace(/\s+/g, "")}`} className="pl-10">
+                                <SidebarMenu>
+                                  {subItems.map(({ title: subTitle, url: subUrl, icon: SubIcon }) => {
+                                    const subActive = location.pathname === subUrl;
+                                    return (
+                                      <SidebarMenuItem key={subTitle}>
+                                        <SidebarMenuButton asChild>
+                                          <NavLink
+                                            to={subUrl || "#"}
+                                            className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors ${
+                                              subActive ? "bg-sidebar-accent text-sidebar-primary font-medium" : ""
+                                            } hover:bg-sidebar-accent`}
+                                            activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
+                                          >
+                                            <SubIcon className="h-4 w-4 flex-shrink-0" />
+                                            <span>{subTitle}</span>
+                                          </NavLink>
+                                        </SidebarMenuButton>
+                                      </SidebarMenuItem>
+                                    );
+                                  })}
+                                </SidebarMenu>
+                              </SidebarGroupContent>
+                            )}
+                          </>
+                        ) : (
+                          <SidebarMenuButton asChild>
+                            <NavLink
+                              to={url || "#"}
+                              end={url === "/"}
+                              className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors ${
+                                active ? "bg-sidebar-accent text-sidebar-primary font-medium" : ""
+                              } hover:bg-sidebar-accent`}
+                              activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
+                            >
                               <Icon className="h-5 w-5 flex-shrink-0" />
                               {open && <span>{title}</span>}
-                            </div>
-                            {open && (
-                              <span>
-                                {expanded ? (
-                                  <ChevronDown className="h-4 w-4" />
-                                ) : (
-                                  <ChevronRight className="h-4 w-4" />
-                                )}
-                              </span>
-                            )}
+                            </NavLink>
                           </SidebarMenuButton>
-                          {expanded && open && (
-                            <SidebarGroupContent
-                              id={`submenu-${title.replace(/\s+/g, "")}`}
-                              className="pl-10"
-                            >
-                              <SidebarMenu>
-                                {subItems.map(({ title: subTitle, url: subUrl, icon: SubIcon }) => {
-                                  const subActive = location.pathname === subUrl;
-                                  return (
-                                    <SidebarMenuItem key={subTitle}>
-                                      <SidebarMenuButton asChild>
-                                        <NavLink
-                                          to={subUrl || "#"}
-                                          className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors
-                                            ${subActive ? "bg-sidebar-accent text-sidebar-primary font-medium" : ""}
-                                            hover:bg-sidebar-accent`}
-                                          activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
-                                        >
-                                          <SubIcon className="h-4 w-4 flex-shrink-0" />
-                                          <span>{subTitle}</span>
-                                        </NavLink>
-                                      </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                  );
-                                })}
-                              </SidebarMenu>
-                            </SidebarGroupContent>
-                          )}
-                        </>
-                      ) : (
-                        <SidebarMenuButton asChild>
-                          <NavLink
-                            to={url || "#"}
-                            end={url === "/"}
-                            className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors
-                              ${active ? "bg-sidebar-accent text-sidebar-primary font-medium" : ""}
-                              hover:bg-sidebar-accent`}
-                            activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
-                          >
-                            <Icon className="h-5 w-5 flex-shrink-0" />
-                            {open && <span>{title}</span>}
-                          </NavLink>
-                        </SidebarMenuButton>
-                      )}
-                    </SidebarMenuItem>
-                  );
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
+                        )}
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarContent>
+        </div>
+
+        {/* Fixed Footer */}
+        <div className="flex-shrink-0 border-t border-border">
+          <div className={`p-4 ${open ? 'flex items-center gap-4' : ''}`}>
+            <img 
+              src={'https://via.placeholder.com/40'}
+              alt="User Avatar"
+              className="w-10 h-10 rounded-full"
+            />
+            {open && (
+              <div className="flex-grow">
+                <p className="font-semibold text-sm">{user?.name || 'Guest User'}</p>
+                <p className="text-xs text-muted-foreground">{user?.email || 'guest@example.com'}</p>
+              </div>
+            )}
+             {open && (
+              <div className="relative">
+                <button 
+                  className="p-2 rounded-md hover:bg-muted"
+                  onClick={() => { // Replace with a dropdown menu logic
+                    logout();
+                  }}
+                >
+                  <LogOut className="h-5 w-5" />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </Sidebar>
     </>
   );
