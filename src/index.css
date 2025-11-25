@@ -114,10 +114,9 @@ All colors MUST be HSL.
 }
 
 @layer base {
-  * {
-    @apply border-border;
+  *{
+    border:none;
   }
-
   body {
     @apply bg-background text-foreground;
   }

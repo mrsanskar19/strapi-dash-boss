@@ -59,31 +59,31 @@ const Index = () => {
         <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4">
           <StatCard
             title="Total Applications"
-            value={12}
+            value={1}
             icon={Server}
             trend={{ value: "+2 this month", isPositive: true }}
             variant="primary"
           />
           <StatCard
-            title="Database Tables"
-            value={48}
+            title="Database Uase"
+            value={"200MB"}
             icon={Database}
             trend={{ value: "+5 this week", isPositive: true }}
             variant="success"
           />
           <StatCard
             title="API Requests"
-            value="1.2M"
+            value="1.2K"
             icon={Activity}
             trend={{ value: "+12% from last month", isPositive: true }}
             variant="warning"
           />
           <StatCard
-            title="Uptime"
-            value="99.9%"
+            title="Active Time"
+            value="10 Hr"
             icon={TrendingUp}
             trend={{ value: "Stable", isPositive: true }}
-            variant="success"
+            variant="danger"
           />
         </div>
 
@@ -91,7 +91,7 @@ const Index = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg md:text-xl font-semibold text-foreground">Applications</h3>
-            <Button variant="ghost" size="sm">View All</Button>
+            <Link to="/applications"><Button variant="ghost" size="sm">View All</Button></Link>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
@@ -99,12 +99,7 @@ const Index = () => {
               data?.map((app) => (
                 <ApplicationCard
                   key={app?.id}
-                  slug={app?.slug}
-                  name={app?.name}
-                  status={app?.isActive ? "active" : "inactive"}
-                  requests="245K/day"
-                  uptime="99.9%"
-                  lastDeployed={app?.updatedAt}
+                  app={app}
                 />
               ))
               : "No Data Found"}

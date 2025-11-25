@@ -19,18 +19,26 @@ interface CollectionCardProps {
     lastDeployed: string;
     slug:string;
     CollectionSlug:string;
+    variant?:string;
   }
   
 
-export function CollectionCard({name, CollectionSlug,status, requests, lastDeployed,slug }: CollectionCardProps) {
+export function CollectionCard({name, CollectionSlug,status, requests, lastDeployed,slug,variant="default" }: CollectionCardProps) {
     const statusColors = {
         active: "bg-success text-success-foreground",
         inactive: "bg-muted text-muted-foreground",
         error: "bg-destructive text-destructive-foreground",
       };
+      const variantClasses = {
+        primary: "bg-gradient-to-br from-primary/10 to-primary/5 text-primary",
+        success: "bg-gradient-to-br from-success/10 to-success/5 text-success",
+        warning: "bg-gradient-to-br from-warning/10 to-warning/5 text-warning",
+        danger: "bg-gradient-to-br from-destructive/10 to-destructive/5 text-destructive",
+        default:"bg-gradient-to-br from-purple-500/10 to-purple-500/5 text-purple-600"
+      };
   return (
-    <Link to={`/collection/${CollectionSlug}`}>
-    <Card className="transition-all duration-200 hover:shadow-lg">
+    <Link to={`/app/${slug}/${CollectionSlug}`}>
+    <Card className={`transition-all duration-200 hover:shadow-lg ${variantClasses[variant]}`}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">

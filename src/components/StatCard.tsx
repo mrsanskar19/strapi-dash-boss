@@ -21,7 +21,7 @@ export function StatCard({ title, value, icon: Icon, trend, variant = "primary" 
   };
 
   return (
-    <Card className="transition-all duration-200 hover:shadow-lg">
+    <Card className={`transition-all duration-200 hover:shadow-lg ${variantClasses[variant]}`}>
       <CardContent className="p-4 md:p-6">
         <div className="flex items-start justify-between">
           <div className="flex-1">

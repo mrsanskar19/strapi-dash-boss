@@ -2,7 +2,7 @@ import { DashboardLayout } from "@/components/DashboardLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Plus, Server } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { CollectionCard } from "@/components/CollectionCard";
 import { Card,CardContent,CardDescription,CardHeader, CardTitle } from "@/components/ui/card";
 import { Loading } from "@/components/Loading";
@@ -43,34 +43,27 @@ export default function ApplicationView() {
             <CardTitle className="text-xl md:text-2xl font-bold text-foreground">{data?.name}</CardTitle>
             <CardDescription className="text-sm text-muted-foreground mt-1">{data?.description}</CardDescription>
           </div>
-          <Button className="gap-2 w-full sm:w-auto">
-            <Plus className="h-4 w-4" />
-            New Application
-          </Button>
         
           </CardHeader>
           <CardContent>
           <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4">
             <StatCard title={"Status"} value={"Active"} icon={Server} trend={{value:"+2 this month",isPositive:true}} variant={"primary"}/>
-            <StatCard title={"Total Collections"} value={"2"} icon={Server} trend={{value:"+2 this month",isPositive:true}} variant={"primary"}/>
-            <div>tsyting layout</div>
-            <div>tsyting layout</div>
+            <StatCard title={"Total Collections"} value={"2"} icon={Server} trend={{value:"+2 this month",isPositive:true}} variant={"danger"}/>
+            <StatCard title={"Draft Collection"} value={"0"} icon={Server} trend={{value:"+2 this month",isPositive:true}} variant="warning"/>
+            <StatCard title={"Total Rows"} value={"200"} icon={Server} trend={{value:"+2 this month",isPositive:true}} variant="success"/>
           </div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
+            <div className="flex items-center justify-between">
         <h2 className="text-xl md:text-2xl font-bold text-foreground">Collections</h2>
+        <Link to={`/app/${slug}/collections`}><Button variant="ghost" size="sm">View All</Button></Link>
+        </div>
         </CardHeader>
         <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-        <CollectionCard name={"Testing Collection"} status={"active"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"active"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"error"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"active"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"inactive"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"active"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
-        <CollectionCard name={"Testing Collection"} status={"active"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={"testing-slug"} CollectionSlug={"testingCollection"}/>
+        <CollectionCard name={"Testing Collection"} status={"active"} requests={"17"} lastDeployed={"19-10-2025 8:29"} slug={slug} CollectionSlug={"testingCollection"}/>
         </div>
         </CardContent>
         </Card>

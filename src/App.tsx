@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { NotificationProvider } from "@/contexts/NotificationContext";
 
 //All Pages 
 import Index from "./pages/Index";
@@ -24,6 +25,7 @@ import Profile from "./pages/Profile";
 import { DashboardLayout } from "./components/DashboardLayout";
 import EditProfile from "./pages/profile/EditProfile";
 import Notifications from "./pages/profile/Notifications";
+import Files from "./pages/Files";
 
 //Billing Pages
 import Billing from "./pages/Billing";
@@ -38,6 +40,9 @@ import NotificationsSettings from "./pages/settings/Notifications";
 import SecuritySettings from "./pages/settings/Security";
 import PreferencesSettings from "./pages/settings/Preferences";
 import PasswordSettings from "./pages/settings/Password";
+import ApplicationSettings from "./pages/settings/ApplicationSettings";
+import CollectionSettings from "./pages/settings/CollectionSettings";
+import Teams from "./pages/settings/Teams";
 
 //Database Pages
 import DataStorage from "./pages/database/DataStorage";
@@ -47,11 +52,12 @@ import Backups from "./pages/database/Backups";
 
 //API Pages
 import ApiTokens from "./pages/api/ApiTokens";
-import EndpointAccess from "./pages/api/EndpointAccess";
-import AccessManager from "./pages/api/AccessManager";
+import ServiceKeys from "./pages/api/ServiceKeys";
+import LiveTrafficDashboard from "./pages/api/LiveTraffic";
 
 import StartHere from "./pages/StartHere";
 import Playground from "./pages/Playground";
+import { AppLayout } from "./components/AppLayout";
 
 const queryClient = new QueryClient();
 
@@ -59,61 +65,74 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <Routes>
-            {/* Public routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/verify-email" element={<VerifyEmailPage />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
+        <NotificationProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <Routes>
+              {/* Public routes */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/verify-email" element={<VerifyEmailPage />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
 
-            {/* Protected routes */}
-            <Route
-              element={
+              {/* Protected routes */}
+              <Route
+                element={
+                  <ProtectedRoute>
+                    <DashboardLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="/dashboard" element={<Index />} />
+                <Route path="/" element={<StartHere />} />
+                <Route path="/playground" element={<Playground />} />
+                <Route path="/applications" element={<Applications />} />
+                <Route path="/app" element={<Applications />} />
+                <Route path="/database" element={<Database />} />
+                <Route path="/database/data-storage" element={<DataStorage />} />
+                <Route path="/database/file-storage" element={<FileStorage />} />
+                <Route path="/database/system-usage" element={<SystemUsage />} />
+                <Route path="/database/backups" element={<Backups />} />
+                <Route path="/files" element={<Files />} />
+                <Route path="/api" element={<Api />} />
+                <Route path="/api/tokens" element={<ApiTokens />} />
+                <Route path="/api/service-keys" element={<ServiceKeys />} />
+                <Route path="/api/live-traffic" element={<LiveTrafficDashboard />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/settings/general" element={<GeneralSettings />} />
+                <Route path="/settings/security" element={<SecuritySettings />} />
+                <Route path="/settings/application-access" element={<ApplicationAccess />} />
+                <Route path="/settings/preferences" element={<PreferencesSettings />} />
+                <Route path="/settings/password" element={<PasswordSettings />} />
+                <Route path="/settings/notifications" element={<NotificationsSettings />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/profile/edit" element={<EditProfile />} />
+                <Route path="/profile/notifications" element={<Notifications />} />
+                <Route path="/billing" element={<Billing />} />
+                <Route path="/billing/usage" element={<Usage />} />
+                <Route path="/billing/invoices" element={<Invoices />} />
+                <Route path="/billing/payment-methods" element={<PaymentMethods />} />
+
+                {/* Catch-all route should still be outside or last */}
+                <Route path="*" element={<NotFound />} />
+              </Route>
+              <Route element={
                 <ProtectedRoute>
-                  <DashboardLayout />
+                  <AppLayout/>
                 </ProtectedRoute>
-              }
-            >
-              <Route path="/dashboard" element={<Index />} />
-              <Route path="/" element={<StartHere />} />
-              <Route path="/playground" element={<Playground />} />
-              <Route path="/applications" element={<Applications />} />
-              <Route path="/applications/:slug" element={<ApplicationView />} />
-              <Route path="/collection/:slug" element={<CollectionView />} />
-              <Route path="/database" element={<Database />} />
-              <Route path="/database/data-storage" element={<DataStorage />} />
-              <Route path="/database/file-storage" element={<FileStorage />} />
-              <Route path="/database/system-usage" element={<SystemUsage />} />
-              <Route path="/database/backups" element={<Backups />} />
-              <Route path="/api" element={<Api />} />
-              <Route path="/api/tokens" element={<ApiTokens />} />
-              <Route path="/api/endpoint-access" element={<EndpointAccess />} />
-              <Route path="/api/access-manager" element={<AccessManager />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/settings/general" element={<GeneralSettings />} />
-              <Route path="/settings/security" element={<SecuritySettings />} />
-              <Route path="/settings/application-access" element={<ApplicationAccess />} />
-              <Route path="/settings/preferences" element={<PreferencesSettings />} />
-              <Route path="/settings/password" element={<PasswordSettings />} />
-              <Route path="/settings/notifications" element={<NotificationsSettings />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/profile/edit" element={<EditProfile />} />
-              <Route path="/profile/notifications" element={<Notifications />} />
-              <Route path="/billing" element={<Billing />} />
-              <Route path="/billing/usage" element={<Usage />} />
-              <Route path="/billing/invoices" element={<Invoices />} />
-              <Route path="/billing/payment-methods" element={<PaymentMethods />} />
+              }>
+                <Route path="/app/:slug" element={<ApplicationView />} />
+                <Route path="/app/:slug/:colSlug" element={<CollectionView />} />
+                <Route path="/app/:slug/settings" element={<ApplicationSettings />} />
+              <Route path="/app/:slug/:colSlug/settings" element={<CollectionSettings />} />
+              <Route path="/app/:slug/teams" element={<Teams />} />
+              </Route>
 
-              {/* Catch-all route should still be outside or last */}
-              <Route path="*" element={<NotFound />} />
-            </Route>
-
-          </Routes>
-        </TooltipProvider>
+            </Routes>
+          </TooltipProvider>
+        </NotificationProvider>
       </AuthProvider>
     </BrowserRouter>
   </QueryClientProvider>

@@ -5,10 +5,7 @@ import { Loading } from "@/components/Loading";
 
 
 import { db } from "@/lib/db"
-
 import { useEffect, useState } from "react";
-
-
 
 export default function Applications() {
     const { loading, getApplications } = db()
@@ -42,12 +39,7 @@ export default function Applications() {
           {data ? data.map((app) => (
             <ApplicationCard 
               key={app.id}
-              name={app.name}
-              status={app.isActive ? "active" : "inactive"}
-              requests="245K/day"
-              uptime="99.9%"
-              lastDeployed={app.updatedAt} 
-              slug={app.slug}            />
+              app={app}/>
           )) : "Data Not Found"}
         </div>
       </div>

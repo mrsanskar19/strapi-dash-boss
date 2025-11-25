@@ -1,9 +1,9 @@
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
-import { BottomNav } from "@/components/BottomNav";
+import { AppViewSidebar } from "@/components/AppSidebar";
+import { AppViewBottomNav } from "@/components/BottomNav";
 import { cn } from "@/lib/utils"
-import { Outlet,useLocation } from "react-router-dom";
+import { Outlet,useParams } from "react-router-dom";
 import { Tracker } from "./Tracker";
 import { NotificationPanel } from "./NotificationPanel";
 
@@ -11,13 +11,14 @@ interface DashboardLayoutProps {
   className?:string;
 }
 
-export function DashboardLayout({ className }: DashboardLayoutProps) {
+export function AppLayout({ className }: DashboardLayoutProps) {
+  const { slug } = useParams();
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
+      <div className="min-h-screen flex w-full bg-white">
         {/* Desktop Sidebar - hidden on mobile */}
         <div className="hidden md:block">
-          <AppSidebar />
+          <AppViewSidebar app={slug} />
         </div>
         
         <div className="flex-1 flex flex-col">
@@ -40,13 +41,13 @@ export function DashboardLayout({ className }: DashboardLayoutProps) {
           </header>
           
           {/* Main content with bottom padding on mobile for bottom nav */}
-          <main className={cn("flex-1 p-4 md:p-6 pb-20 md:pb-6 bg-white", className)}>
+          <main className={cn("flex-1 p-4 md:p-6 pb-20 md:pb-6", className)}>
             <Outlet/>
           </main>
         </div>
         
         {/* Bottom Navigation - only on mobile */}
-        <BottomNav />
+        <AppViewBottomNav />
       </div>
     </SidebarProvider>
   );
