@@ -282,15 +282,14 @@ const AppItems: MenuItem[] = [
     subItems: [
       { title: "Overview", url: "/api", icon: LayoutDashboard },
       { title: "API Tokens", url: "/api/tokens", icon: Key },
-      { title: "Endpoint Access", url: "/api/endpoint-access", icon: Shield },
       { title: "Access Manager", url: "/api/access-manager", icon: UserCog },
     ]
   },
   { title: "Endpoints", icon: Code,
     subItems:[
-      { title: "Endpoints",url:"/enpoints",icon:Key},
-      { title: "Servies Endpoint",url:"/enpoints-servies",icon:Key},
-      { title: "Auth Endpoints",url:"/enpoints-auth",icon:Key},
+      { title: "Endpoints",url:"/endpoints",icon:Key},
+      { title: "Servies Endpoint",url:"/endpoints-service",icon:Key},
+      { title: "Auth Endpoints",url:"/endpoints-auth",icon:Key},
     ]
    },
   {
@@ -413,10 +412,7 @@ export function AppViewSidebar({app}:{app:string}) {
                                         <SidebarMenuButton asChild>
                                           <NavLink
                                             to={`/app/${app}${subUrl}` || "#"}
-                                            className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors ${
-                                              subActive ? "bg-sidebar-accent text-sidebar-primary font-medium" : ""
-                                            } hover:bg-sidebar-accent`}
-                                            activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
+                                            className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors hover:bg-sidebar-accent`}
                                           >
                                             <SubIcon className="h-4 w-4 flex-shrink-0" />
                                             <span>{subTitle}</span>

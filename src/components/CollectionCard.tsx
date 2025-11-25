@@ -37,7 +37,7 @@ export function CollectionCard({name, CollectionSlug,status, requests, lastDeplo
         default:"bg-gradient-to-br from-purple-500/10 to-purple-500/5 text-purple-600"
       };
   return (
-    <Link to={`/app/${slug}/${CollectionSlug}`}>
+    <Link to={`/app/${slug}/col/${CollectionSlug}`}>
     <Card className={`transition-all duration-200 hover:shadow-lg ${variantClasses[variant]}`}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
         <div className="flex items-center gap-3">

@@ -26,6 +26,7 @@ import { DashboardLayout } from "./components/DashboardLayout";
 import EditProfile from "./pages/profile/EditProfile";
 import Notifications from "./pages/profile/Notifications";
 import Files from "./pages/Files";
+import Collections from "./pages/app/Collections";
 
 //Billing Pages
 import Billing from "./pages/Billing";
@@ -58,6 +59,10 @@ import LiveTrafficDashboard from "./pages/api/LiveTraffic";
 import StartHere from "./pages/StartHere";
 import Playground from "./pages/Playground";
 import { AppLayout } from "./components/AppLayout";
+import ApiOverview from "./pages/Api";
+import { EndpointsOverview } from "./pages/endpoints/Overview";
+import { ServiceEndpoints } from "./pages/endpoints/ServiceEndpoints";
+import { AuthEnpoints } from "./pages/endpoints/AuthEndpoints";
 
 const queryClient = new QueryClient();
 
@@ -118,16 +123,24 @@ const App = () => (
                 {/* Catch-all route should still be outside or last */}
                 <Route path="*" element={<NotFound />} />
               </Route>
-              <Route element={
+              <Route path="/app/:slug" element={
                 <ProtectedRoute>
                   <AppLayout/>
                 </ProtectedRoute>
               }>
-                <Route path="/app/:slug" element={<ApplicationView />} />
-                <Route path="/app/:slug/:colSlug" element={<CollectionView />} />
-                <Route path="/app/:slug/settings" element={<ApplicationSettings />} />
-              <Route path="/app/:slug/:colSlug/settings" element={<CollectionSettings />} />
-              <Route path="/app/:slug/teams" element={<Teams />} />
+                <Route path="collections" element={<Collections/>}/>
+                <Route path="" element={<ApplicationView />} />
+                <Route path="col/:colSlug" element={<CollectionView />} />
+                <Route path="settings" element={<ApplicationSettings />} />
+                <Route path="col/:colSlug/settings" element={<CollectionSettings />} />
+                <Route path="teams" element={<Teams />} />
+                <Route path="api" element={<ApiOverview/>}/>
+                <Route path="api/tokens" element={<ApiOverview/>}/>
+                <Route path="api/access-manager" element={<ApiOverview/>}/>
+                <Route path="endpoints" element={<EndpointsOverview/>}/>
+                <Route path="endpoints-service" element={<ServiceEndpoints/>}/>
+                <Route path="endpoints-auth" element={<AuthEnpoints/>}/>
+                <Route path="*" element={<NotFound />} />
               </Route>
 
             </Routes>

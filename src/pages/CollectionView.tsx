@@ -1,10 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CollectionForm } from "@/components/forms/Collection";
-
 import { DataTable } from "@/components/DataTable";
-import { CollectionSidebar } from "@/components/CollectionSidebar";
 import { Plus, Server } from "lucide-react";
 import { StatCard } from "@/components/StatCard";
 
@@ -12,7 +9,7 @@ const CollectionPage = () => {
 
 
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
@@ -29,8 +26,8 @@ const CollectionPage = () => {
           <div className="grid gap-3 md:gap-4 grid-cols-2 lg:grid-cols-4">
             <StatCard title={"Status"} value={"Active"} icon={Server} trend={{value:"+2 this month",isPositive:true}} variant={"primary"}/>
             <StatCard title={"Total Collections"} value={"2"} icon={Server} trend={{value:"+2 this month",isPositive:true}} variant={"primary"}/>
-            <div>tsyting layout</div>
-            <div>tsyting layout</div>
+            <StatCard title={"Total Collections"} value={"2"} icon={Server} trend={{value:"+2 this month",isPositive:true}} variant={"primary"}/>
+            <StatCard title={"Total Collections"} value={"2"} icon={Server} trend={{value:"+2 this month",isPositive:true}} variant={"primary"}/>
           </div>
           </CardContent>
       </Card>
